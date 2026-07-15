@@ -1,0 +1,23 @@
+﻿<view wx:if="{{loading}}" class="loading">正在加载报价…</view>
+<view wx:elif="{{error && !quote}}" class="page"><view class="error">{{error}}</view></view>
+<view class="page" wx:else>
+  <view class="page-head"><text class="eyebrow">{{quote.quoteNumber}}</text><text class="title">{{quote.customerName}}</text><text class="desc">{{quote.projectName || '未填写项目名称'}}</text></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view wx:if="{{quote.draft}}" class="success">V{{quote.draftVersion}} 草稿尚未发布。<navigator url="/pages/editor/index?id={{quoteId}}">继续编辑 →</navigator></view>
+  <view wx:if="{{current}}" class="metrics">
+    <view><text>当前版本</text><text class="strong">V{{current.version}}</text></view><view><text>报价总额</text><text class="strong money">{{current.amountLabel}}</text></view><view><text>客户查看</text><text class="strong">{{current.viewCount}}</text></view><view><text>客户确认</text><text class="strong">{{current.acceptedAt ? '已接受' : '等待中'}}</text></view>
+  </view>
+  <view class="button-row top-actions"><button class="secondary-button" bindtap="copyQuote">复制新报价</button><button class="primary-button" disabled="{{quote.draft}}" bindtap="newVersion">创建新版本</button></view>
+  <view class="card">
+    <view class="card-title">版本记录</view>
+    <view wx:for="{{versions}}" wx:key="id" class="version-card">
+      <view class="version-head"><view><text class="strong">V{{item.version}}</text><text class="status {{item.state}}">{{item.stateLabel}}</text></view><text class="strong money">{{item.amountLabel}}</text></view>
+      <text class="meta">有效至 {{item.validUntil}} · 查看 {{item.viewCount}} 次</text>
+      <view wx:for="{{item.calculation.lines}}" wx:for-item="line" wx:key="id" class="line"><text>{{line.name}} × {{line.quantity}}</text><text class="strong">￥{{line.lineTotal}}</text></view>
+      <view wx:if="{{item.actions.length}}" class="actions-timeline">
+        <view wx:for="{{item.actions}}" wx:for-item="action" wx:key="id" wx:if="{{action.type !== 'VIEW'}}"><text class="strong">{{action.type === 'ACCEPT' ? '接受报价' : action.type === 'QUESTION' ? '客户问题' : '申请修改'}}</text><text>{{action.message}}</text></view>
+      </view>
+      <view class="button-row version-actions"><button wx:if="{{item.shareToken}}" class="secondary-button" data-index="{{index}}" open-type="share">微信分享</button><button class="secondary-button" data-version="{{item.version}}" bindtap="openPdf">PDF</button><button wx:if="{{item.state === 'ACTIVE' || item.state === 'CHANGE_REQUESTED'}}" class="danger-button" data-version="{{item.version}}" bindtap="withdraw">撤回</button></view>
+    </view>
+  </view>
+</view>

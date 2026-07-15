@@ -1,0 +1,19 @@
+{
+  "description": "店告微信报价成交助手",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "appid": "touristappid",
+  "libVersion": "3.8.10",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": false,
+    "useCompilerPlugins": false
+  },
+  "condition": {}
+}

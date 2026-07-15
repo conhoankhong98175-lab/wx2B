@@ -1,0 +1,23 @@
+{$DIANGAO_DOMAIN} {
+  encode zstd gzip
+  reverse_proxy diangao:3100
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy "no-referrer"
+    -Server
+  }
+
+  request_body {
+    max_size 512KB
+  }
+
+  @sensitive_quote_path path /q/* /api/public/quotes/* /api/public/documents/*
+  log_skip @sensitive_quote_path
+
+  log {
+    output stdout
+    format json
+  }
+}

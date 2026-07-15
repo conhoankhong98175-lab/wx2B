@@ -1,0 +1,189 @@
+page {
+  min-height: 100%;
+  color: #17211f;
+  background: #f3f4f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+view,
+text,
+input,
+textarea,
+picker,
+button {
+  box-sizing: border-box;
+}
+button::after {
+  border: 0;
+}
+.page {
+  min-height: 100vh;
+  padding: 32rpx 28rpx 180rpx;
+}
+.page-head {
+  margin: 12rpx 0 30rpx;
+}
+.page-head .eyebrow {
+  color: #0b6b5f;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+}
+.page-head .title {
+  display: block;
+  margin: 8rpx 0;
+  font-size: 52rpx;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.page-head .desc {
+  color: #697471;
+  font-size: 27rpx;
+  line-height: 1.65;
+}
+.card {
+  margin-bottom: 24rpx;
+  padding: 28rpx;
+  border: 1rpx solid #e0e6e2;
+  border-radius: 24rpx;
+  background: #fff;
+  box-shadow: 0 12rpx 36rpx rgba(28, 54, 47, 0.06);
+}
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22rpx;
+  font-size: 31rpx;
+  font-weight: 750;
+}
+.primary-button,
+.secondary-button,
+.danger-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84rpx;
+  padding: 0 28rpx;
+  border-radius: 18rpx;
+  font-size: 29rpx;
+  font-weight: 700;
+}
+.primary-button {
+  color: #fff;
+  background: #0b6b5f;
+}
+.secondary-button {
+  color: #0b6b5f;
+  background: #e5f0ed;
+}
+.danger-button {
+  color: #a73d35;
+  background: #faeae7;
+}
+.button-row {
+  display: flex;
+  gap: 16rpx;
+}
+.button-row button {
+  flex: 1;
+}
+.field {
+  margin-bottom: 22rpx;
+}
+.field-label {
+  display: block;
+  margin-bottom: 10rpx;
+  color: #40504c;
+  font-size: 25rpx;
+  font-weight: 650;
+}
+.input,
+.textarea,
+.picker {
+  width: 100%;
+  min-height: 78rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid #cdd8d4;
+  border-radius: 16rpx;
+  background: #fff;
+  font-size: 28rpx;
+}
+.textarea {
+  min-height: 150rpx;
+}
+.muted {
+  color: #75807d;
+}
+.error {
+  margin-bottom: 20rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 16rpx;
+  color: #9a332c;
+  background: #faeae8;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+.success {
+  margin-bottom: 20rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 16rpx;
+  color: #376b28;
+  background: #e8f3e3;
+}
+.empty {
+  padding: 80rpx 30rpx;
+  color: #75807d;
+  text-align: center;
+  line-height: 1.7;
+}
+.status {
+  display: inline-flex;
+  padding: 7rpx 16rpx;
+  border-radius: 999rpx;
+  color: #35675e;
+  background: #e5f0ed;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+.status.ACCEPTED {
+  color: #47752f;
+  background: #e6f1e0;
+}
+.status.CHANGE_REQUESTED {
+  color: #9b5b0d;
+  background: #f8ead4;
+}
+.status.EXPIRED,
+.status.WITHDRAWN,
+.status.SUPERSEDED {
+  color: #6b716f;
+  background: #e9ecea;
+}
+.money {
+  color: #0b6b5f;
+  font-weight: 800;
+}
+.strong {
+  font-weight: 750;
+}
+.fixed-actions {
+  position: fixed;
+  z-index: 20;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  gap: 16rpx;
+  padding: 18rpx 24rpx calc(18rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid #dfe6e2;
+  background: rgba(255, 255, 255, 0.96);
+}
+.fixed-actions button {
+  flex: 1;
+}
+.loading {
+  padding: 120rpx 30rpx;
+  color: #75807d;
+  text-align: center;
+}

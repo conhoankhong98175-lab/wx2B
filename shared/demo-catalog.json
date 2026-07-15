@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "category": "演示产品（请核价）",
+  "products": [
+    {
+      "code": "DEMO-AREA",
+      "name": "喷绘写真（演示）",
+      "formulaType": "AREA",
+      "unit": "㎡",
+      "salePrice": "25",
+      "costPrice": "15",
+      "minimumCharge": "30",
+      "lossRate": "5",
+      "notes": "演示价格，请按本店实际价格修改"
+    },
+    {
+      "code": "DEMO-QTY",
+      "name": "名片（演示）",
+      "formulaType": "QUANTITY",
+      "unit": "盒",
+      "salePrice": "30",
+      "costPrice": "15",
+      "minimumCharge": "0",
+      "lossRate": "0",
+      "notes": "演示价格，请按本店实际价格修改"
+    },
+    {
+      "code": "DEMO-FIXED",
+      "name": "设计费（演示）",
+      "formulaType": "FIXED",
+      "unit": "项",
+      "salePrice": "100",
+      "costPrice": null,
+      "minimumCharge": "0",
+      "lossRate": "0",
+      "notes": "演示价格，请按本店实际价格修改"
+    }
+  ],
+  "addOns": [
+    {
+      "name": "安装费（演示）",
+      "pricingType": "FIXED",
+      "unit": "次",
+      "price": "200",
+      "notes": "演示价格，请按本店实际价格修改"
+    },
+    {
+      "name": "覆膜（演示）",
+      "pricingType": "AREA",
+      "unit": "㎡",
+      "price": "5",
+      "notes": "演示价格，请按本店实际价格修改"
+    }
+  ]
+}

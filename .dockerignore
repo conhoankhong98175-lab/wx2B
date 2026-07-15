@@ -1,0 +1,10 @@
+node_modules
+dist
+release
+out
+coverage
+.git
+.env*
+*.db*
+店告-微信报价成交助手-产品需求文档.md
+竞品对比与转型建议.md

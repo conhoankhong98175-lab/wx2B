@@ -1,0 +1,19 @@
+﻿<view class="page">
+  <view class="page-head"><text class="eyebrow">每一版都有据可查</text><text class="title">报价</text></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="filters">
+    <input class="input" value="{{query}}" placeholder="搜索编号、客户或项目" bindinput="onSearch" confirm-type="search" bindconfirm="submitSearch" />
+    <picker mode="selector" range="{{stateOptions}}" value="{{stateIndex}}" bindchange="onState"><view class="picker">{{stateOptions[stateIndex]}}</view></picker>
+  </view>
+  <view class="filters"><picker mode="date" value="{{dateFrom}}" bindchange="onDateFrom"><view class="picker">{{dateFrom || '开始日期'}}</view></picker><picker mode="date" value="{{dateTo}}" bindchange="onDateTo"><view class="picker">{{dateTo || '结束日期'}}</view></picker><button wx:if="{{dateFrom || dateTo}}" class="secondary-button" bindtap="clearDates">清除日期</button></view>
+  <view wx:if="{{loading}}" class="loading">正在加载…</view>
+  <view wx:elif="{{items.length === 0}}" class="card empty">没有匹配的报价。</view>
+  <view wx:else class="quote-list">
+    <view wx:for="{{items}}" wx:key="id" class="quote-card" data-id="{{item.id}}" data-draft="{{item.hasDraft}}" bindtap="openQuote">
+      <view class="quote-top"><text>{{item.quoteNumber}}{{item.currentVersion ? ' · V' + item.currentVersion : ''}}</text><text class="status {{item.hasDraft ? 'DRAFT' : item.state}}">{{item.stateLabel}}</text></view>
+      <text class="strong">{{item.customerName}}</text><text class="project">{{item.projectName || '未填写项目名称'}}</text>
+      <view class="quote-bottom"><text class="strong money">{{item.amountLabel}}</text><text>{{item.viewed ? '客户已查看' : '客户未查看'}}</text></view>
+    </view>
+  </view>
+  <button class="floating-add" bindtap="newQuote">＋</button>
+</view>

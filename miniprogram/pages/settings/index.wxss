@@ -1,0 +1,10 @@
+.textarea.long {
+  min-height: 260rpx;
+}
+.danger-zone > text {
+  display: block;
+  margin-bottom: 22rpx;
+  color: #697471;
+  font-size: 25rpx;
+  line-height: 1.6;
+}

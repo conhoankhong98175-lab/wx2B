@@ -1,0 +1,53 @@
+services:
+  diangao:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DIANGAO_MODE: server
+      HOST: 0.0.0.0
+      PORT: 3100
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}
+      APP_SECRET: ${APP_SECRET}
+      WECHAT_APP_ID: ${WECHAT_APP_ID}
+      WECHAT_APP_SECRET: ${WECHAT_APP_SECRET}
+      BACKUP_SECRET: ${BACKUP_SECRET}
+      BACKUP_DIR: /backups
+      DB_PATH: /data/diangao.db
+      PDF_FONT_PATH: /app/assets/fonts/NotoSansCJKsc-Regular.otf
+    volumes:
+      - diangao-data:/data
+      - diangao-backups:/backups
+    ports:
+      - '127.0.0.1:3100:3100'
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '5'
+
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    depends_on:
+      - diangao
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DIANGAO_DOMAIN: ${DIANGAO_DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '5'
+
+volumes:
+  diangao-data:
+  diangao-backups:
+  caddy-data:
+  caddy-config:

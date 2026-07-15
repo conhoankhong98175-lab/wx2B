@@ -1,0 +1,23 @@
+﻿<view wx:if="{{loading}}" class="loading">正在加载设置…</view>
+<view wx:elif="{{error && !form}}" class="page"><view class="error">{{error}}</view></view>
+<view class="page" wx:else>
+  <view class="page-head"><text class="eyebrow">你的品牌与默认条款</text><text class="title">店铺设置</text><text class="desc">新设置只影响之后创建的报价，历史版本保持不变。</text></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view><view wx:if="{{saved}}" class="success">店铺资料已保存</view>
+  <view class="card">
+    <view class="card-title">公开资料</view>
+    <view class="field"><text class="field-label">店铺名称 *</text><input class="input" value="{{form.name}}" data-field="name" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">联系人</text><input class="input" value="{{form.contactName}}" data-field="contactName" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">联系电话</text><input class="input" value="{{form.contactPhone}}" data-field="contactPhone" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">联系微信</text><input class="input" value="{{form.contactWechat}}" data-field="contactWechat" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">Logo HTTPS 地址（选填）</text><input class="input" value="{{form.logoUrl}}" data-field="logoUrl" bindinput="onField" /></view>
+  </view>
+  <view class="card">
+    <view class="card-title">报价默认值</view>
+    <view class="field"><text class="field-label">默认有效天数</text><input class="input" type="number" value="{{form.defaultValidDays}}" bindinput="onValidDays" /></view>
+    <view class="field"><text class="field-label">总价取整</text><picker mode="selector" range="{{roundingOptions}}" value="{{roundingIndex}}" bindchange="onRounding"><view class="picker">{{roundingOptions[roundingIndex]}}</view></picker></view>
+    <view class="field"><text class="field-label">默认交付周期</text><input class="input" value="{{form.defaultDeliveryPeriod}}" data-field="defaultDeliveryPeriod" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">默认报价条款</text><textarea class="textarea long" value="{{form.defaultTerms}}" data-field="defaultTerms" bindinput="onField" /></view>
+  </view>
+  <view class="card danger-zone"><view class="card-title">数据与安全</view><text>可导出全部业务数据。删除后，价格库、报价和客户链接都无法恢复。</text><view class="button-row"><button class="secondary-button" bindtap="exportData">导出数据</button><button class="danger-button" bindtap="deleteAccount">删除店铺</button></view></view>
+  <button class="primary-button" bindtap="save">保存设置</button>
+</view>

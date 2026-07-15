@@ -1,0 +1,34 @@
+﻿<view class="page">
+  <view class="page-head">
+    <text class="eyebrow">今天从快速回复开始</text>
+    <text class="title">报价工作台</text>
+    <text class="desc">少算错、少反复，更快给客户一份可以确认版本的专业报价。</text>
+  </view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view wx:if="{{loading}}" class="loading">正在加载…</view>
+  <block wx:else>
+    <view class="metric-grid">
+      <view class="metric"><text>全部报价</text><text class="strong">{{metrics.all}}</text></view>
+      <view class="metric accent"><text>待反馈</text><text class="strong">{{metrics.pending}}</text></view>
+      <view class="metric"><text>已查看</text><text class="strong">{{metrics.viewed}}</text></view>
+      <view class="metric success"><text>已接受</text><text class="strong">{{metrics.accepted}}</text></view>
+    </view>
+    <button class="primary-button new-button" bindtap="newQuote">＋ 新建报价</button>
+    <view class="card">
+      <view class="card-title"><text>最近报价</text><navigator url="/pages/quotes/index" open-type="switchTab">查看全部 →</navigator></view>
+      <view wx:if="{{quotes.length === 0}}" class="empty">还没有报价，先创建第一份真实报价。</view>
+      <view wx:for="{{quotes}}" wx:key="id" class="quote-row" data-id="{{item.id}}" data-draft="{{item.hasDraft}}" bindtap="openQuote">
+        <view><text class="strong">{{item.customerName}}</text><text>{{item.projectName || item.quoteNumber}}</text></view>
+        <view class="right"><text class="strong money">{{item.amountLabel}}</text><text class="status {{item.hasDraft ? 'DRAFT' : item.state}}">{{item.stateLabel}}</text></view>
+      </view>
+    </view>
+    <view class="card">
+      <view class="card-title">客户动态</view>
+      <view wx:if="{{notifications.length === 0}}" class="empty small">客户查看、接受或申请修改后会显示在这里。</view>
+      <view wx:for="{{notifications}}" wx:key="id" class="notice-row">
+        <view><text class="strong">{{item.title}}</text><text>{{item.body}}</text></view>
+        <button data-id="{{item.id}}" bindtap="resolveNotification">完成</button>
+      </view>
+    </view>
+  </block>
+</view>

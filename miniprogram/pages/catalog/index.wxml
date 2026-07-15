@@ -1,0 +1,44 @@
+﻿<view class="page">
+  <view class="page-head"><text class="eyebrow">高频规则录一次</text><text class="title">价格库</text><text class="desc">价格库变化不会覆盖历史正式报价。</text></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="tabs"><button class="{{tab === 'products' ? 'active' : ''}}" data-tab="products" bindtap="setTab">产品与材料</button><button class="{{tab === 'addons' ? 'active' : ''}}" data-tab="addons" bindtap="setTab">工艺与附加项</button></view>
+  <view class="button-row action-row"><button class="secondary-button" bindtap="addCategory">＋ 分类</button><button class="primary-button" bindtap="newItem">＋ 新建{{tab === 'products' ? '产品' : '附加项'}}</button></view>
+  <view wx:if="{{tab === 'products' && categories.length}}" class="category-list"><view wx:for="{{categories}}" wx:key="id" class="category-chip"><button data-index="{{index}}" bindtap="editCategory">{{item.name}}</button><switch data-index="{{index}}" checked="{{item.enabled}}" bindchange="toggleCategory" color="#0b6b5f" /></view></view>
+  <view wx:if="{{loading}}" class="loading">正在加载…</view>
+  <block wx:elif="{{tab === 'products'}}">
+    <input class="input search-input" value="{{query}}" placeholder="搜索产品名称或编码" bindinput="onSearch" />
+    <view wx:for="{{visibleProducts}}" wx:key="id" class="item-card" data-id="{{item.id}}" bindtap="editProduct">
+      <view><text class="strong">{{item.name}}</text><text>{{item.code}}{{item.isDemo ? ' · 演示价格' : ''}}</text></view>
+      <view class="right"><text class="strong money">￥{{item.salePrice}} / {{item.unit}}</text><text>{{item.formulaLabel}} · {{item.enabled ? '启用' : '停用'}}</text></view>
+    </view>
+  </block>
+  <block wx:else>
+    <view wx:for="{{addOns}}" wx:key="id" class="item-card" data-index="{{index}}" bindtap="editAddon">
+      <view><text class="strong">{{item.name}}</text><text>{{item.notes}}</text></view>
+      <view class="right"><text class="strong money">{{item.pricingType === 'PERCENT' ? item.price + '%' : '￥' + item.price}}</text><text>{{item.pricingLabel}} · {{item.enabled ? '启用' : '停用'}}</text></view>
+    </view>
+  </block>
+</view>
+<view wx:if="{{editing && form}}" class="drawer-mask" bindtap="closeForm">
+  <view class="drawer" catchtap="noop">
+    <view class="drawer-title"><text class="strong">{{form.id ? '编辑' : '新建'}}{{formType === 'product' ? '产品' : '附加项'}}</text><button bindtap="closeForm">×</button></view>
+    <block wx:if="{{formType === 'product'}}">
+      <view class="field"><text class="field-label">名称 *</text><input class="input" value="{{form.name}}" data-field="name" bindinput="onFormField" /></view>
+      <view class="field"><text class="field-label">编码</text><input class="input" value="{{form.code}}" data-field="code" bindinput="onFormField" /></view>
+      <view class="field"><text class="field-label">分类</text><picker mode="selector" range="{{categoryNames}}" value="{{categoryIndex}}" bindchange="onCategory"><view class="picker">{{categoryNames[categoryIndex]}}</view></picker></view>
+      <view class="field"><text class="field-label">计价公式</text><picker mode="selector" range="{{formulaOptions}}" value="{{formulaIndex}}" bindchange="onFormula"><view class="picker">{{formulaOptions[formulaIndex]}}</view></picker></view>
+      <view class="field"><text class="field-label">单位</text><input class="input" value="{{form.unit}}" data-field="unit" bindinput="onFormField" /></view>
+      <view class="two"><view class="field"><text class="field-label">销售价</text><input class="input" type="digit" value="{{form.salePrice}}" data-field="salePrice" bindinput="onFormField" /></view><view class="field"><text class="field-label">成本价</text><input class="input" type="digit" value="{{form.costPrice}}" data-field="costPrice" bindinput="onFormField" /></view></view>
+      <view class="two"><view class="field"><text class="field-label">最低收费</text><input class="input" type="digit" value="{{form.minimumCharge}}" data-field="minimumCharge" bindinput="onFormField" /></view><view class="field"><text class="field-label">损耗率 %</text><input class="input" type="digit" value="{{form.lossRate}}" data-field="lossRate" bindinput="onFormField" /></view></view>
+    </block>
+    <block wx:else>
+      <view class="field"><text class="field-label">名称 *</text><input class="input" value="{{form.name}}" data-field="name" bindinput="onFormField" /></view>
+      <view class="field"><text class="field-label">计价方式</text><picker mode="selector" range="{{addonOptions}}" value="{{addonIndex}}" bindchange="onAddonType"><view class="picker">{{addonOptions[addonIndex]}}</view></picker></view>
+      <view class="two"><view class="field"><text class="field-label">价格 / 比例</text><input class="input" type="digit" value="{{form.price}}" data-field="price" bindinput="onFormField" /></view><view class="field"><text class="field-label">单位</text><input class="input" value="{{form.unit}}" data-field="unit" bindinput="onFormField" /></view></view>
+      <view class="field"><text class="field-label">适用产品（不选表示全部）</text><checkbox-group bindchange="onApplicableProducts"><label wx:for="{{products}}" wx:key="id" class="checkbox-row"><checkbox value="{{item.id}}" checked="{{item.applicable}}" color="#0b6b5f" />{{item.name}}</label></checkbox-group></view>
+    </block>
+    <view class="field"><text class="field-label">备注</text><textarea class="textarea" value="{{form.notes}}" data-field="notes" bindinput="onFormField" /></view>
+    <view class="switch-row"><text>允许用于新报价</text><switch color="#0b6b5f" checked="{{form.enabled}}" bindchange="onEnabled" /></view>
+    <button class="primary-button" bindtap="save">保存</button>
+  </view>
+</view>

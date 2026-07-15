@@ -1,0 +1,93 @@
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18rpx;
+  margin-bottom: 24rpx;
+}
+.metric {
+  min-height: 160rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24rpx;
+  border-radius: 22rpx;
+  background: #fff;
+  box-shadow: 0 10rpx 30rpx rgba(25, 52, 45, 0.05);
+}
+.metric text {
+  color: #75807d;
+  font-size: 24rpx;
+}
+.metric strong {
+  font-size: 48rpx;
+}
+.metric.accent {
+  color: #fff;
+  background: #0b6b5f;
+}
+.metric.accent text {
+  color: #d5eae5;
+}
+.metric.success {
+  background: #eaf4e5;
+}
+.new-button {
+  margin-bottom: 24rpx;
+}
+.card-title navigator {
+  color: #0b6b5f;
+  font-size: 24rpx;
+}
+.quote-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+  padding: 24rpx 0;
+  border-top: 1rpx solid #edf1ee;
+}
+.quote-row > view {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.quote-row text {
+  max-width: 400rpx;
+  overflow: hidden;
+  color: #75807d;
+  font-size: 23rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.quote-row .right {
+  align-items: flex-end;
+}
+.notice-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #edf1ee;
+}
+.notice-row > view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7rpx;
+}
+.notice-row text {
+  color: #75807d;
+  font-size: 23rpx;
+}
+.notice-row button {
+  margin: 0;
+  padding: 8rpx 14rpx;
+  color: #0b6b5f;
+  background: #e8f1ef;
+  font-size: 23rpx;
+  line-height: 1.4;
+}
+.empty.small {
+  padding: 40rpx 20rpx;
+}

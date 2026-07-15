@@ -1,0 +1,13 @@
+node_modules/
+dist/
+out/
+release/
+release-smoke/
+smoke-data/
+coverage/
+data/
+assets/fonts/
+assets/icon.ico
+desktop-smoke.png
+package-lock.json
+THIRD_PARTY_NOTICES.md

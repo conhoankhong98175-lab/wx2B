@@ -1,0 +1,81 @@
+﻿<view wx:if="{{loading}}" class="loading">正在加载报价编辑器…</view>
+<view wx:elif="{{error && !draft}}" class="page"><view class="error">{{error}}</view></view>
+<view class="page" wx:else>
+  <view class="page-head"><text class="eyebrow">60 秒算清并发出</text><text class="title">{{quoteId ? '编辑报价' : '新建报价'}}</text><text wx:if="{{syncState}}" class="desc">{{syncState}}</text></view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="card">
+    <view class="card-title">客户与项目</view>
+    <view class="field"><text class="field-label">客户名称 *</text><input class="input" value="{{draft.customerName}}" data-field="customerName" bindinput="onField" placeholder="张先生 / XX 公司" /></view>
+    <view class="field"><text class="field-label">联系方式（仅内部）</text><input class="input" value="{{draft.customerContact}}" data-field="customerContact" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">项目名称</text><input class="input" value="{{draft.projectName}}" data-field="projectName" bindinput="onField" /></view>
+  </view>
+  <view class="card">
+    <view class="card-title"><text>报价项目</text><picker mode="selector" range="{{productNames}}" bindchange="addProduct"><view class="add-link">＋ 添加产品</view></picker></view>
+    <view wx:if="{{draft.lines.length === 0}}" class="empty">选择产品后，系统会显示对应公式所需的参数。</view>
+    <view wx:for="{{draft.lines}}" wx:for-item="item" wx:for-index="lineIndex" wx:key="id" class="line-card">
+      <block wx:for="{{products}}" wx:for-item="product" wx:for-index="productIndex" wx:key="id">
+        <block wx:if="{{product.id === item.productId}}">
+          <view class="line-title"><text class="strong">{{lineIndex + 1}}. {{product.name}}</text><button data-index="{{lineIndex}}" bindtap="removeLine">移除</button></view>
+          <view wx:if="{{product.formulaType !== 'FIXED'}}" class="field"><text class="field-label">数量</text><input class="input" type="digit" value="{{item.quantity}}" data-index="{{lineIndex}}" data-field="quantity" bindinput="onLineField" /></view>
+          <view wx:if="{{product.formulaType === 'AREA'}}" class="dimension-row">
+            <view class="field"><text class="field-label">长度</text><view class="dimension"><input class="input" type="digit" value="{{item.length.value}}" data-index="{{lineIndex}}" data-field="length" bindinput="onDimension" /><picker mode="selector" range="{{dimensionUnits}}" data-index="{{lineIndex}}" data-field="length" bindchange="onDimensionUnit"><view>{{item.length.unit}}</view></picker></view></view>
+            <view class="field"><text class="field-label">宽度</text><view class="dimension"><input class="input" type="digit" value="{{item.width.value}}" data-index="{{lineIndex}}" data-field="width" bindinput="onDimension" /><picker mode="selector" range="{{dimensionUnits}}" data-index="{{lineIndex}}" data-field="width" bindchange="onDimensionUnit"><view>{{item.width.unit}}</view></picker></view></view>
+          </view>
+          <view class="field"><text class="field-label">本次单价（元 / {{product.unit}}）</text><input class="input" type="digit" value="{{item.unitPriceOverride || product.salePrice}}" data-index="{{lineIndex}}" data-field="unitPriceOverride" bindinput="onLineField" /></view>
+          <view class="field"><text class="field-label">项目说明</text><input class="input" value="{{item.description}}" data-index="{{lineIndex}}" data-field="description" bindinput="onLineField" /></view>
+          <view class="addon-list">
+            <view wx:for="{{item.addOns}}" wx:for-item="selected" wx:for-index="addonIndex" wx:key="id" class="addon-row">
+              <text>{{selected.name}}</text><input wx:if="{{selected.pricingType === 'QUANTITY' || selected.pricingType === 'AREA'}}" class="mini-input" type="digit" value="{{selected.quantity || selected.area || ''}}" placeholder="{{selected.pricingType === 'AREA' ? '面积' : '数量'}}" data-line="{{lineIndex}}" data-index="{{addonIndex}}" data-field="{{selected.pricingType === 'AREA' ? 'area' : 'quantity'}}" bindinput="onLineAddonField" /><input class="mini-input" type="digit" value="{{selected.priceOverride || ''}}" placeholder="本次单价" data-line="{{lineIndex}}" data-index="{{addonIndex}}" data-field="priceOverride" bindinput="onLineAddonField" /><button data-line="{{lineIndex}}" data-index="{{addonIndex}}" bindtap="removeLineAddon">×</button>
+            </view>
+            <picker mode="selector" range="{{addOnNames}}" data-index="{{lineIndex}}" bindchange="addLineAddon"><view class="add-link">＋ 添加工艺/附加项</view></picker>
+          </view>
+          <view wx:if="{{calculation && calculation.lines[lineIndex]}}" class="line-total"><view><text>{{calculation.lines[lineIndex].billableArea ? '计费面积 ' + calculation.lines[lineIndex].billableArea + '㎡' : '单价 ￥' + calculation.lines[lineIndex].unitPrice}}</text><text class="formula-detail">公式额 ￥{{calculation.lines[lineIndex].formulaAmount}} · 损耗 {{calculation.lines[lineIndex].lossRate}}% · 最低 ￥{{calculation.lines[lineIndex].minimumCharge}} · 附加 ￥{{calculation.lines[lineIndex].addOnTotal}}</text></view><text class="strong">￥{{calculation.lines[lineIndex].lineTotal}}</text></view>
+        </block>
+      </block>
+    </view>
+  </view>
+  <view class="card">
+    <view class="card-title"><text>整单费用</text><picker mode="selector" range="{{addOnNames}}" bindchange="addOrderAddon"><view class="add-link">＋ 添加</view></picker></view>
+    <view wx:for="{{draft.orderAddOns}}" wx:key="id" class="addon-row"><text>{{item.name}}</text><input wx:if="{{item.pricingType === 'QUANTITY' || item.pricingType === 'AREA'}}" class="mini-input" type="digit" value="{{item.quantity || item.area || ''}}" placeholder="{{item.pricingType === 'AREA' ? '面积' : '数量'}}" data-index="{{index}}" data-field="{{item.pricingType === 'AREA' ? 'area' : 'quantity'}}" bindinput="onOrderAddonField" /><input class="mini-input" type="digit" value="{{item.priceOverride || ''}}" placeholder="本次单价" data-index="{{index}}" data-field="priceOverride" bindinput="onOrderAddonField" /><button data-index="{{index}}" bindtap="removeOrderAddon">×</button></view>
+    <view class="two-fields">
+      <view class="field"><text class="field-label">优惠方式</text><picker mode="selector" range="{{discountOptions}}" value="{{discountIndex}}" bindchange="onDiscount"><view class="picker">{{discountOptions[discountIndex]}}</view></picker></view>
+      <view class="field"><text class="field-label">优惠值</text><input class="input" type="digit" value="{{draft.discountValue}}" data-field="discountValue" bindinput="onField" /></view>
+      <view class="field"><text class="field-label">手工调整</text><input class="input" type="digit" value="{{draft.manualAdjustment}}" data-field="manualAdjustment" bindinput="onField" /></view>
+      <view class="field"><text class="field-label">调整原因</text><input class="input" value="{{draft.adjustmentReason}}" data-field="adjustmentReason" bindinput="onField" /></view>
+      <view class="field"><text class="field-label">税务模式</text><picker mode="selector" range="{{taxOptions}}" value="{{taxIndex}}" bindchange="onTax"><view class="picker">{{taxOptions[taxIndex]}}</view></picker></view>
+      <view class="field"><text class="field-label">税率 %</text><input class="input" type="digit" value="{{draft.taxRate}}" data-field="taxRate" bindinput="onField" /></view>
+      <view class="field"><text class="field-label">有效至</text><picker mode="date" value="{{draft.validUntil}}" data-field="validUntil" bindchange="onField"><view class="picker">{{draft.validUntil}}</view></picker></view>
+      <view class="field"><text class="field-label">交付周期</text><input class="input" value="{{draft.deliveryPeriod}}" data-field="deliveryPeriod" bindinput="onField" /></view>
+    </view>
+    <view class="field"><text class="field-label">客户可见备注</text><textarea class="textarea" value="{{draft.notes}}" data-field="notes" bindinput="onField" /></view>
+    <view class="field"><text class="field-label">报价条款</text><textarea class="textarea" value="{{draft.terms}}" data-field="terms" bindinput="onField" /></view>
+  </view>
+  <view wx:if="{{calculation}}" class="summary card"><view><text>小计</text><text class="strong">￥{{calculation.subtotal}}</text></view><view wx:if="{{calculation.taxMode !== 'NONE'}}"><text>税额</text><text class="strong">￥{{calculation.taxAmount}}</text></view><view class="total"><text>报价总额</text><text class="strong">￥{{calculation.total}}</text></view></view>
+  <view class="fixed-actions"><button class="secondary-button" loading="{{saving}}" bindtap="save">保存草稿</button><button class="primary-button" loading="{{publishing}}" disabled="{{!calculation}}" bindtap="showPreview">客户预览并发布</button></view>
+</view>
+<view wx:if="{{previewing && calculation}}" class="preview-mask">
+  <view class="preview-sheet">
+    <view class="page-head"><text class="eyebrow">客户视角预览</text><text class="title">{{merchant.name}}</text><text class="desc">{{quoteNumber || '发布后生成报价编号'}} · V{{draftVersion}}</text></view>
+    <view class="card preview-meta"><text>客户：{{draft.customerName}}</text><text wx:if="{{draft.projectName}}">项目：{{draft.projectName}}</text><text>有效至：{{draft.validUntil}} 23:59</text><text>交付周期：{{draft.deliveryPeriod || '双方另行确认'}}</text></view>
+    <view class="card">
+      <view wx:for="{{calculation.lines}}" wx:key="id" class="preview-line-block">
+        <view class="preview-line"><text class="strong">{{index + 1}}. {{item.name}}</text><text class="strong">￥{{item.lineTotal}}</text></view>
+        <text>数量 {{item.quantity}} {{item.unit}}{{item.billableArea ? ' · 计费面积 ' + item.billableArea + '㎡' : ''}}</text>
+        <text wx:if="{{item.description}}">说明：{{item.description}}</text>
+        <view wx:for="{{item.addOns}}" wx:for-item="addon" wx:key="id" class="preview-line preview-addon"><text>＋ {{addon.name}}</text><text>￥{{addon.amount}}</text></view>
+      </view>
+      <view wx:if="{{calculation.orderAddOns.length}}" class="preview-group-title">整单附加费用</view>
+      <view wx:for="{{calculation.orderAddOns}}" wx:for-item="addon" wx:key="id" class="preview-line"><text>{{addon.name}}</text><text>￥{{addon.amount}}</text></view>
+      <view class="preview-line"><text>小计</text><text>￥{{calculation.subtotal}}</text></view>
+      <view wx:if="{{calculation.discountAmount !== '0.00'}}" class="preview-line"><text>优惠</text><text>-￥{{calculation.discountAmount}}</text></view>
+      <view wx:if="{{calculation.manualAdjustment !== '0.00'}}" class="preview-line"><text>手工调整</text><text>￥{{calculation.manualAdjustment}}</text></view>
+      <view class="preview-line"><text>税务模式</text><text>{{calculation.taxMode === 'NONE' ? '不计税' : calculation.taxMode === 'INCLUDED' ? '单价含税 · 税率 ' + calculation.taxRate + '%' : '税费另计 · 税率 ' + calculation.taxRate + '%'}}</text></view>
+      <view wx:if="{{calculation.taxMode !== 'NONE'}}" class="preview-line"><text>{{calculation.taxMode === 'INCLUDED' ? '其中税额' : '税额'}}</text><text>￥{{calculation.taxAmount}}</text></view>
+      <view wx:if="{{calculation.roundingAdjustment !== '0.00'}}" class="preview-line"><text>取整调整</text><text>￥{{calculation.roundingAdjustment}}</text></view>
+      <view class="preview-total"><text>报价总额</text><text class="strong">￥{{calculation.total}}</text></view>
+    </view>
+    <view wx:if="{{draft.notes || draft.terms}}" class="card preview-copy"><text wx:if="{{draft.notes}}" class="strong">备注</text><text wx:if="{{draft.notes}}">{{draft.notes}}</text><text wx:if="{{draft.terms}}" class="strong">报价条款</text><text wx:if="{{draft.terms}}">{{draft.terms}}</text></view>
+    <view class="card preview-contact"><text class="strong">{{merchant.contactName || merchant.name}}</text><text>{{merchant.contactPhone}}{{merchant.contactWechat ? ' · 微信 ' + merchant.contactWechat : ''}}</text><text class="preview-legal">接受报价用于确认当前价格与范围，不等同于付款或电子合同。</text></view>
+    <view class="button-row"><button class="secondary-button" bindtap="hidePreview">返回修改</button><button class="primary-button" loading="{{publishing}}" bindtap="publish">确认发布</button></view>
+  </view>
+</view>
