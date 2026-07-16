@@ -6,10 +6,9 @@ release-smoke/
 smoke-data/
 coverage/
 .env
-.env.local
-*.db
-*.db-shm
-*.db-wal
+.env.*
+!.env.example
+*.db*
 *.migration-*.bak
 *.migration-*.bak.enc
 *.restore*.tmp

@@ -76,3 +76,5 @@ node dist/server/index.mjs
 - 联系方式、留言、草稿、正式快照和成本价在 SQLite 中加密保存。
 
 产品范围和验收口径见 [完整 PRD](店告-微信报价成交助手-产品需求文档.md)。
+
+迁移到新电脑继续微信提审，请从 [HANDOFF.md](HANDOFF.md) 开始，并运行 `npm run handoff:check`。

@@ -34,6 +34,7 @@
     "wechat:login": "node scripts/wechat-devtools.mjs login",
     "wechat:preview": "node scripts/wechat-devtools.mjs preview",
     "wechat:upload": "node scripts/wechat-devtools.mjs upload",
+    "handoff:check": "powershell -ExecutionPolicy Bypass -File scripts/bootstrap-new-machine.ps1",
     "check": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {
