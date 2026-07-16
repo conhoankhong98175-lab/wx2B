@@ -48,7 +48,7 @@ npm run build:windows
 3. 用微信开发者工具导入 `miniprogram/`。
 4. 在微信后台把 API 域名同时配置到 request 与 downloadFile 合法域名。
 
-正式上传还需要微信小程序 AppID、服务类目、隐私保护指引和已备案 HTTPS 域名。AppSecret 只放服务器环境变量，绝不能写入小程序或仓库。详见 [微信发布说明](docs/WECHAT_RELEASE.md)。
+正式上传还需要微信小程序 AppID、服务类目、隐私保护指引和已备案 HTTPS 域名。AppSecret 只放服务器环境变量，绝不能写入小程序或仓库。详见 [微信上架操作手册](docs/WECHAT_RELEASE.md)和[提审材料模板](docs/WECHAT_SUBMISSION_COPY.md)。
 
 ## 服务器部署
 

@@ -20,4 +20,6 @@ Thumbs.db
 miniprogram/private.config.json
 miniprogram/project.private.config.json
 wechat-ci.config.json
+private.*.key
+miniprogram-ci-key/
 desktop-smoke.png

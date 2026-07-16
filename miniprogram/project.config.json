@@ -1,5 +1,6 @@
 {
   "description": "店告微信报价成交助手",
+  "projectname": "店告报价助手",
   "compileType": "miniprogram",
   "miniprogramRoot": "./",
   "appid": "touristappid",

@@ -89,6 +89,16 @@ Page({
       wx.hideLoading();
     }
   },
+  openPrivacyContract() {
+    if (!wx.openPrivacyContract) {
+      wx.showToast({ title: '请升级微信后查看隐私保护指引', icon: 'none' });
+      return;
+    }
+    wx.openPrivacyContract({
+      fail: (error) =>
+        wx.showToast({ title: error.errMsg || '隐私保护指引打开失败', icon: 'none' }),
+    });
+  },
   deleteAccount() {
     wx.showModal({
       title: '永久删除店铺数据',

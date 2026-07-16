@@ -18,6 +18,6 @@
     <view class="field"><text class="field-label">默认交付周期</text><input class="input" value="{{form.defaultDeliveryPeriod}}" data-field="defaultDeliveryPeriod" bindinput="onField" /></view>
     <view class="field"><text class="field-label">默认报价条款</text><textarea class="textarea long" value="{{form.defaultTerms}}" data-field="defaultTerms" bindinput="onField" /></view>
   </view>
-  <view class="card danger-zone"><view class="card-title">数据与安全</view><text>可导出全部业务数据。删除后，价格库、报价和客户链接都无法恢复。</text><view class="button-row"><button class="secondary-button" bindtap="exportData">导出数据</button><button class="danger-button" bindtap="deleteAccount">删除店铺</button></view></view>
+  <view class="card danger-zone"><view class="card-title">数据与安全</view><text>可查看官方隐私保护指引或导出全部业务数据。删除后，价格库、报价和客户链接都无法恢复。</text><view class="button-row"><button class="secondary-button" bindtap="openPrivacyContract">隐私说明</button><button class="secondary-button" bindtap="exportData">导出数据</button><button class="danger-button" bindtap="deleteAccount">删除店铺</button></view></view>
   <button class="primary-button" bindtap="save">保存设置</button>
 </view>

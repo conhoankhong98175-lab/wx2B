@@ -29,6 +29,11 @@
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore.mjs",
     "notices": "node scripts/generate-notices.mjs",
+    "wechat:configure": "node scripts/configure-wechat.mjs",
+    "wechat:preflight": "node scripts/wechat-preflight.mjs",
+    "wechat:login": "node scripts/wechat-devtools.mjs login",
+    "wechat:preview": "node scripts/wechat-devtools.mjs preview",
+    "wechat:upload": "node scripts/wechat-devtools.mjs upload",
     "check": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {
