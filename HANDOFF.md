@@ -12,7 +12,7 @@
 - 小程序显式启用微信隐私接口检查，设置页可打开官方隐私保护指引。
 - 已生成微信上架操作手册、提审文案、隐私用途模板、配置脚本、发布预检和开发者工具 CLI 包装脚本。
 - 最近一次质量门禁：12 个测试文件、45 项测试通过；完整及生产依赖 `npm audit` 均为 0 漏洞。
-- 最新源码提交基线：`24e58dc feat: add WeChat launch tooling and runbook`。以 GitHub 实际最新提交为准。
+- 微信上架工具实现基线：`24e58dc feat: add WeChat launch tooling and runbook`；交接文档在后续提交中加入。新机始终以 `origin/master` 最新提交为准。
 
 ## 2. 当前未完成且必须由运营者/新机继续的事项
 
