@@ -11,7 +11,7 @@
 - 无套餐、支付、订阅、广告、平台水印或商业化限制。
 - 小程序显式启用微信隐私接口检查，设置页可打开官方隐私保护指引。
 - 已生成微信上架操作手册、提审文案、隐私用途模板、配置脚本、发布预检和开发者工具 CLI 包装脚本。
-- 最近一次质量门禁：12 个测试文件、45 项测试通过；完整及生产依赖 `npm audit` 均为 0 漏洞。
+- 最近一次质量门禁：12 个测试文件、48 项测试通过；完整及生产依赖 `npm audit` 均为 0 漏洞。
 - 微信上架工具实现基线：`24e58dc feat: add WeChat launch tooling and runbook`；交接文档在后续提交中加入。新机始终以 `origin/master` 最新提交为准。
 
 ## 2. 当前未完成且必须由运营者/新机继续的事项
@@ -67,7 +67,7 @@ npm run handoff:check
 
 - Node 24 版本检查。
 - `npm ci` 锁文件安装。
-- Prettier、TypeScript、ESLint、45 项自动测试和生产构建。
+- Prettier、TypeScript、ESLint、48 项自动测试和生产构建。
 - 完整及生产依赖安全审计。
 - 微信发布预检。
 
@@ -127,6 +127,10 @@ npm run wechat:upload -- --version 1.0.0 --desc '首次提审 报价版本客户
 ```
 
 扫码必须由小程序管理员或项目成员完成。输出文件位于 Git 已忽略的 `out/`。CLI 说明见[微信官方文档](https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html)。
+
+首次接管先运行 `npm run wechat:status` 核验 CLI 登录会话。若工具使用固定服务端口，可设置 `WECHAT_DEVTOOLS_PORT=9420`，或追加 `-- --port 9420`；连接异常会在有限时间内退出并提示检查“设置 → 安全设置 → 服务端口”。
+
+若确认要让本项目自动开启服务端口，可运行 `npm run wechat:status -- --port 9420 --enable-service-port`。这是显式的一次性确认；未传该参数时脚本不会自动修改开发者工具安全设置。
 
 上传后登录 [微信公众平台](https://mp.weixin.qq.com/)：“管理 → 版本管理 → 开发版本 → 提交审核”。审核通过后仍需管理员手动点击“发布”。
 

@@ -31,6 +31,7 @@
     "notices": "node scripts/generate-notices.mjs",
     "wechat:configure": "node scripts/configure-wechat.mjs",
     "wechat:preflight": "node scripts/wechat-preflight.mjs",
+    "wechat:status": "node scripts/wechat-devtools.mjs status",
     "wechat:login": "node scripts/wechat-devtools.mjs login",
     "wechat:preview": "node scripts/wechat-devtools.mjs preview",
     "wechat:upload": "node scripts/wechat-devtools.mjs upload",

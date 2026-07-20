@@ -178,10 +178,15 @@ npm run wechat:preflight -- --strict-online
 安装并登录微信开发者工具，在“设置 → 安全设置”开启服务端口。若工具不在默认路径，用 `WECHAT_DEVTOOLS_CLI` 指向安装目录中的 `cli.bat`。
 
 ```powershell
+npm run wechat:status
 npm run wechat:login
 npm run wechat:preview
 npm run wechat:upload -- --version 1.0.0 --desc '首次提审：报价、版本和客户确认闭环'
 ```
+
+若要指定固定服务端口，可设置 `WECHAT_DEVTOOLS_PORT=9420`，或在每条命令后追加 `-- --port 9420`。工具会对登录状态检查设置 30 秒超时，对登录设置 3 分钟超时，对预览和上传设置 10 分钟超时；可用 `WECHAT_DEVTOOLS_TIMEOUT_MS` 调整，避免服务端口未开启时无限等待。
+
+若服务端口尚未开启，可显式运行 `npm run wechat:status -- --port 9420 --enable-service-port`。该参数会自动确认开发者工具自己的“开启工具服务”提示；不提供该参数时包装器不会自动修改安全设置。
 
 登录和预览二维码分别输出到 `out/wechat-login.png`、`out/wechat-preview.png`。上传命令会先执行生产 API 在线预检。命令行参数和登录要求见[微信开发者工具 CLI 文档](https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html)。
 
